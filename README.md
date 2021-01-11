@@ -39,6 +39,9 @@ Spring Boot（即Spring + SpringMVC + MyBatis + Vue）
      
      git clone -b main https://github.com/Eillot/MagicCube.git
 
+二.工具平台效果图如下:
+   
+   ![工具平台效果图](https://github.com/Eillot/MagicCube/blob/main/image/interface_test_tools.png)
 
 
 参与贡献
