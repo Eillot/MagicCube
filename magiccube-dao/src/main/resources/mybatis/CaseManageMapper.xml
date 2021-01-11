@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.CaseManageMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.CaseManage" id="CaseManageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="caseName" column="case_name" jdbcType="VARCHAR" />
+        <result property="caseDes" column="case_des" jdbcType="VARCHAR" />
+        <result property="priority" column="priority" jdbcType="VARCHAR" />
+        <result property="productId" column="product_id" jdbcType="VARCHAR" />
+        <result property="appId" column="app_id" jdbcType="VARCHAR" />
+        <result property="interfaceType" column="interface_type" jdbcType="INTEGER" />
+        <result property="interfaceId" column="interface_id" jdbcType="VARCHAR" />
+        <result property="requestType" column="request_type" jdbcType="INTEGER" />
+        <result property="preActionId" column="pre_action_id" jdbcType="VARCHAR" />
+        <result property="posActionId" column="pos_action_id" jdbcType="VARCHAR" />
+        <result property="sceneId" column="scene_id" jdbcType="VARCHAR" />
+        <result property="remark" column="remark" jdbcType="VARCHAR" />
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR" />
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP" />
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR" />
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP" />
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!-- 通用查询结果集合-->
+    <sql id="Base_Column_List">
+		id,case_name,case_des,priority,product_id,app_id,interface_type,interface_id,request_type,pre_action_id,pos_action_id,remark,scene_id,creater_name,creater_time,modify_name,modify_time,is_delete
+	</sql>
+
+    <sql id="conditions">
+        <if test="id != null"> and id =#{id,jdbcType=INTEGER}</if>
+        <if test="caseName != null and caseName != ''"> and case_name =#{caseName,jdbcType=VARCHAR}</if>
+        <if test="caseDes != null and caseDes != ''"> and case_des =#{caseDes,jdbcType=VARCHAR}</if>
+        <if test="priority != null and priority != ''"> and priority =#{priority,jdbcType=VARCHAR}</if>
+        <if test="productId != null and productId != ''"> and product_id =#{productId,jdbcType=VARCHAR}</if>
+        <if test="appId != null and appId != ''"> and app_id =#{appId,jdbcType=VARCHAR}</if>
+        <if test="interfaceType != null"> and interface_type =#{interfaceType,jdbcType=INTEGER}</if>
+        <if test="interfaceId != null and interfaceId != ''"> and interface_id =#{interfaceId,jdbcType=VARCHAR}</if>
+        <if test="requestType != null"> and request_type =#{requestType,jdbcType=INTEGER}</if>
+        <if test="preActionId != null and preActionId != ''"> and pre_action_id =#{preActionId,jdbcType=VARCHAR}</if>
+        <if test="posActionId != null and posActionId != ''"> and pos_action_id =#{posActionId,jdbcType=VARCHAR}</if>
+        <if test="sceneId != null and sceneId != ''"> and scene_id =#{sceneId,jdbcType=VARCHAR}</if>
+        <if test="remark != null and remark != ''"> and remark =#{remark,jdbcType=VARCHAR}</if>
+        <if test="createrName != null and createrName != ''"> and creater_name =#{createrName,jdbcType=VARCHAR}</if>
+        <if test="createrTime != null and createrTime != ''"> and creater_time =#{createrTime,jdbcType=TIMESTAMP}</if>
+        <if test="modifyName != null and modifyName != ''"> and modify_name =#{modifyName,jdbcType=VARCHAR}</if>
+        <if test="modifyTime != null and modifyTime != ''"> and modify_time =#{modifyTime,jdbcType=TIMESTAMP}</if>
+        <if test="isDelete != null"> and is_delete =#{isDelete,jdbcType=INTEGER}</if>
+    </sql>
+
+    <!--查询单个-->
+    <select id="CaseManageQueryById" resultMap="CaseManageMap">
+        select
+        <include refid="Base_Column_List" />
+        from case_manage
+        where id = #{id} and is_delete = 1
+    </select>
+
+    <!--查询单个-->
+    <select id="caseQueryListById" resultMap="CaseManageMap">
+        select
+        <include refid="Base_Column_List" />
+        from case_manage
+        where id = #{id} and is_delete = 1
+    </select>
+
+    <!--根据sceneId查询用例-->
+    <select id="caseQueryListBySceneId" resultMap="CaseManageMap">
+        select
+        <include refid="Base_Column_List" />
+        from case_manage
+        where scene_id =#{sceneId} and is_delete = 1
+    </select>
+
+    <!--查询用例id-->
+    <select id="selectCaseId" resultMap="CaseManageMap">
+        select
+        id
+        from case_manage
+        where is_delete=1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="CaseManageQueryAllByLimit" resultMap="CaseManageMap">
+        select
+        <include refid="Base_Column_List" />
+        from case_manage
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--查询所有有效数据-->
+    <select id="CaseQueryAll" resultMap="CaseManageMap">
+        select
+        <include refid="Base_Column_List" />
+        from case_manage
+        <where>
+            <if test="id != null"> and id =#{id,jdbcType=INTEGER}</if>
+            <if test="caseName != null and caseName != ''"> and case_name =#{caseName}</if>
+            <if test="caseDes != null and caseDes != ''"> and case_des =#{caseDes}</if>
+            <if test="priority != null and priority != ''"> and priority =#{priority}</if>
+            <if test="productId != null and productId != ''"> and product_id =#{productId}</if>
+            <if test="appId != null and appId != ''"> and app_id =#{appId}</if>
+            <if test="interfaceType != null"> and interface_type =#{interfaceType}</if>
+            <if test="interfaceId != null and interfaceId != ''"> and interface_id =#{interfaceId}</if>
+            <if test="requestType != null"> and request_type =#{requestType}</if>
+            <if test="preActionId != null and preActionId != ''"> and pre_action_id =#{preActionId}</if>
+            <if test="posActionId != null and posActionId != ''"> and pos_action_id =#{posActionId}</if>
+            <if test="sceneId != null and sceneId != ''"> and scene_id =#{sceneId}</if>
+            <if test="remark != null and remark != ''"> and remark =#{remark}</if>
+            <if test="createrName != null and createrName != ''"> and creater_name =#{createrName}</if>
+            <if test="createrTime != null "> and creater_time =#{createrTime}</if>
+            <if test="modifyName != null and modifyName != ''"> and modify_name =#{modifyName}</if>
+            <if test="modifyTime != null"> and modify_time =#{modifyTime}</if>
+            <if test="isDelete != null"> and is_delete =#{isDelete}</if>
+        </where>
+        order by id desc
+    </select>
+
+    <select id="CaseQueryByCaseName" resultMap="CaseManageMap" parameterType="String">
+        select * from case_manage
+        <where>
+            <if test="_parameter != null and _parameter != ''">
+                and case_name like concat('%',#{caseName},'%')
+            </if>
+            and is_delete=1
+        </where>
+    </select>
+
+
+
+    <!--查询用例列表数据-->
+    <select id="CaseListQueryAll" resultMap="CaseManageMap">
+        SELECT
+        case_manage.id AS id,
+	    case_manage.case_name ,
+	    case_manage.remark AS remark,
+	    case_manage.priority ,
+	    case_manage.product_id ,
+        case_manage.appId ,
+        case_manage.interface_id ,
+        case_manage.interface_type ,
+	    case_manage.creater_name ,
+	    case_manage.creater_time ,
+        case_manage.is_delete AS isDelete,
+        case_scene_run_relation.run_object_type,
+        run_task.id ,
+	    run_task.task_name ,
+	    run_task.run_state ,
+	    run_task.run_result
+        FROM
+	    case_manage
+	    LEFT JOIN case_scene_run_relation ON case_manage.id = case_scene_run_relation.run_object_id
+	    LEFT JOIN run_task ON case_scene_run_relation.run_id = run_task.id
+        <where>
+            <include refid="conditions" />
+        </where>
+	    order by case_manage.id desc
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="CaseManageQueryAll" resultMap="CaseManageMap">
+        select
+        <include refid="Base_Column_List" />
+        from case_manage
+        <where>
+            <include refid="conditions" />
+        </where>
+        order by id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="CaseManageInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into case_manage(case_name,case_des,priority,product_id,app_id,interface_type,interface_id,request_type,pre_action_id,pos_action_id,scene_id,remark,creater_name,creater_time,modify_name,modify_time,is_delete)
+        values (#{caseName},#{caseDes},#{priority}, #{productId},#{appId}, #{interfaceType}, #{interfaceId},#{requestType}, #{preActionId}, #{posActionId}, #{sceneId},#{remark},
+        #{createrName}, #{createrTime}, #{modifyName}, #{modifyTime}, 1)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="CaseManageUpdate">
+        update case_manage
+        <set>
+            <if test="caseName != null and caseName != ''">
+                case_name = #{caseName},
+            </if>
+            <if test="caseDes != null and caseDes != ''">
+                case_des = #{caseDes},
+            </if>
+            <if test="priority != null and priority != ''">
+                priority = #{priority},
+            </if>
+            <if test="productId != null and productId != ''">
+                product_id = #{productId},
+            </if>
+            <if test="appId != null and appId != ''">
+                app_id = #{appId},
+            </if>
+            <if test="interfaceType != null">
+                interface_type = #{interfaceType},
+            </if>
+            <if test="interfaceId != null and interfaceId != ''">
+                interface_id = #{interfaceId},
+            </if>
+            <if test="requestType != null and requestType != ''">
+                request_type = #{requestType},
+            </if>
+            <if test="preActionId != null">
+                pre_action_id = #{preActionId},
+            </if>
+            <if test="posActionId != null ">
+                pos_action_id = #{posActionId},
+            </if>
+            <if test="sceneId != null and sceneId != ''">
+                scene_id = #{sceneId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createrName != null and createrName != ''">
+                creater_name = #{createrName},
+            </if>
+            <if test="createrTime != null">
+                creater_time = #{createrTime},
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                modify_name = #{modifyName},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+            <if test="caseName != null">
+               case_name = #{caseName}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--删除用例（is_delete设置为0）-->
+    <update id="CaseManageDelete">
+        update case_manage set is_delete = 0  where id = #{id}
+    </update>
+
+
+    <!-- 分页查询总数 -->
+    <select id="selectCaseListPageTotal" resultType="java.lang.Integer" parameterType="java.util.HashMap" useCache="false">
+        SELECT
+        count(*)
+        FROM case_manage
+        <where>
+            <include refid="conditions" />
+        </where>
+    </select>
+
+    <!--通过主键删除-->
+    <delete id="CaseManageDeleteById">
+        delete from case_manage where id = #{id}
+    </delete>
+
+</mapper>

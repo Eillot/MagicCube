@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.SmallToolMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.SmallTool" id="SmallToolMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="interfaceType" column="interface_type" jdbcType="VARCHAR"/>
+        <result property="interfaceId" column="interface_id" jdbcType="VARCHAR"/>
+        <result property="parameter" column="parameter" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR"/>
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="SmallToolQueryById" resultMap="SmallToolMap">
+        select
+        id, interface_type, interface_id, parameter, remark, creater_name, creater_time, modify_name, modify_time,
+        is_delete
+        from small_tool
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="SmallToolQueryAllByLimit" resultMap="SmallToolMap">
+        select
+        id, interface_type, interface_id, parameter, remark, creater_name, creater_time, modify_name, modify_time,
+        is_delete
+        from small_tool
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="SmallToolQueryAll" resultMap="SmallToolMap">
+        select
+        id, interface_type, interface_id, parameter, remark, creater_name, creater_time, modify_name, modify_time,
+        is_delete
+        from small_tool
+        <where>
+            <if test="id != null and id !=''">
+                and id = #{id}
+            </if>
+            <if test="interfaceType != null and interfaceType != ''">
+                and interface_type = #{interfaceType}
+            </if>
+            <if test="interfaceId != null and interfaceId != ''">
+                and interface_id = #{interfaceId}
+            </if>
+            <if test="parameter != null and parameter != ''">
+                and parameter = #{parameter}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="createrName != null and createrName != ''">
+                and creater_name = #{createrName}
+            </if>
+            <if test="createrTime != null">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                and modify_name = #{modifyName}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+        order by creater_time DESC
+    </select>
+
+    <!--新增所有列-->
+    <insert id="SmallToolInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into small_tool(interface_type, interface_id, parameter, remark, creater_name, creater_time,
+        modify_name, modify_time, is_delete)
+        values (#{interfaceType}, #{interfaceId}, #{parameter}, #{remark}, #{createrName},now(),
+        #{modifyName}, #{modifyTime}, #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="SmallToolUpdate">
+        update small_tool
+        <set>
+            <if test="interfaceType != null and interfaceType != ''">
+                interface_type = #{interfaceType},
+            </if>
+            <if test="interfaceId != null and interfaceId != ''">
+                interface_id = #{interfaceId},
+            </if>
+            <if test="parameter != null and parameter != ''">
+                parameter = #{parameter},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createrName != null and createrName != ''">
+                creater_name = #{createrName},
+            </if>
+            <if test="createrTime != null">
+                creater_time = #{createrTime},
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                modify_name = #{modifyName},
+            </if>
+                modify_time = now(),
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="SmallToolDeleteById">
+        update small_tool set is_delete=0 where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<head>
+    <title>Test Report</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="description" content="TestNG unit test results." />
+
+</head>
+<body>
+
+<h1>IKEA Web Automatic Test</h1>
+<table border="1">
+    <tr>
+        <th>OverView........</th>
+        <th colspan="6" class="header suite">
+            <div >
+                <a href="http://www.baidu.com">Detail Information for test cases</a>
+            </div>
+        </th>
+    </tr>
+    <tr class="columnHeadings">
+        <td> </td>
+        <th>all</th>
+        <th>excluded</th>
+        <th>passed</th>
+        <th>faild</th>
+        <th>skipped</th>
+        <th>StartTime(S)</th>
+        <th>EndTime(S)</th>
+        <th>duration(S)</th>
+        <th>passration</th>
+        <th>alltestMethod</th>
+        <th>excluedMethod</th>
+    </tr>
+
+    <tr>
+        <td>TestResult</td>
+        <td>$overView.allTestsSize</td>
+        <td>$overView.excludeTestsSize</td>
+        <td>$overView.passedTestsSize</td>
+        <td>$overView.failedTestsSize</td>
+        <td>$overView.skippedTestsSize</td>
+        <td>$overView.starttime</td>
+        <td>$overView.endtime</td>
+        <td>$overView.testsTime</td>
+        <td>$overView.passPercent</td>
+        <td>
+            #foreach($p in $overView.allTestsMethod)
+                $p<br/>
+            #end
+        </td>
+        <td>
+            #foreach($e in $overView.excludeTestsMethod)
+                $e<br/>
+            #end
+        </td>
+    </tr>
+</table>
+<br/><br/>
+<table border="1">
+    <tr>
+        <th>PassTests.............</th>
+        <th colspan="6" class="header suite">
+            <div >
+                <a href="http://www.baidu.com">Detail Information for test cases</a>
+            </div>
+        </th>
+    </tr>
+    <tr class="columnHeadings">
+        <td> </td>
+        <th>testName</th>
+        <th>className</th>
+        <th>starttime</th>
+        <th>endtime</th>
+        <th>duration</th>
+        <th>params</th>
+        <th>description</th>
+        <th>output</th>
+        <th>dependMethod</th>
+    </tr>
+
+    #foreach( $p in $pass)
+    <tr>
+        <td>$velocityCount</td>
+        <td>${p.testName}
+            #if(${p.description})
+                (${p.description})
+            #end</td>
+        <td>$p.className</td>
+        <td>$p.starttime</td>
+        <td>$p.endtime</td>
+        <td>$p.duration</td>
+        <td>$!p.params</td>
+        <td>$!p.description</td>
+        <td>
+            #foreach($o in $p.output)
+                $o<br/>
+            #end
+        </td>
+        <td>$p.dependMethod</td>
+        <td>$!p.throwable</td>
+        <td>
+            #if($p.throwable )
+                #foreach($o in $p.stackTrace)
+                    $o<br/>
+                #end
+            #end
+        </td>
+    #end
+</tr>
+
+</table>
+<br/>
+
+
+<br/><br/>
+
+<table border="1">
+    <tr>
+        <th>FailedTests...............</th>
+        <th colspan="6" class="header suite">
+            <div >
+                <a href="http://www.baidu.com">Detail Information for test cases</a>
+            </div>
+        </th>
+    </tr>
+    <tr class="columnHeadings">
+        <td> </td>
+        <th>testName</th>
+        <th>className</th>
+        <th>StartTime</th>
+        <th>EndTime</th>
+        <th>duration</th>
+        <th>params</th>
+        <th>description</th>
+        <th>output</th>
+        <th>dependMethod</th>
+        <th>throwable</th>
+        <th>stackTrace</th>
+    </tr>
+
+    #foreach( $p in $fail)
+    <tr>
+        <td>$velocityCount</td>
+        <td>$p.testName</td>
+        <td>$p.className</td>
+        <td>$p.starttime</td>
+        <td>$p.endtime</td>
+        <td>$p.duration</td>
+        <td>$!p.params</td>
+        <td>$!p.description</td>
+        <td>
+            #foreach($o in $p.output)
+                $o<br/>
+            #end
+        </td>
+        <td>$p.dependMethod</td>
+        <td>$p.throwable</td>
+        <td>
+            #if($p.throwable )
+                #foreach($o in $p.stackTrace)
+                    $o<br/>
+                #end
+            #end
+        </td>
+    #end
+</tr>
+
+
+</table>
+
+<br/><br/>
+</body>

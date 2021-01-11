@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.ParameterizationDataMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.ParameterizationData" id="ParameterizationDataMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="pruductId" column="pruduct_id" jdbcType="VARCHAR"/>
+        <result property="parameterName" column="parameter_name" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="parameterType" column="parameter_type" jdbcType="INTEGER"/>
+        <result property="parameterContent" column="parameter_content" jdbcType="VARCHAR"/>
+        <result property="selectField" column="select_field" jdbcType="VARCHAR"/>
+        <result property="resultValue" column="result_value" jdbcType="VARCHAR"/>
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR"/>
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="ParameterizationDataQueryById" resultMap="ParameterizationDataMap">
+        select
+        id, pruduct_id, parameter_name, remark, parameter_type, parameter_content, select_field, result_value,
+        creater_name, creater_time, modify_name, modify_time, is_delete
+        from parameterization_data
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="ParameterizationDataQueryAllByLimit" resultMap="ParameterizationDataMap">
+        select
+        id, pruduct_id, parameter_name, remark, parameter_type, parameter_content, select_field, result_value,
+        creater_name, creater_time, modify_name, modify_time, is_delete
+        from parameterization_data
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="ParameterizationDataQueryAll" resultMap="ParameterizationDataMap">
+        select
+        id, pruduct_id, parameter_name, remark, parameter_type, parameter_content, select_field, result_value,
+        creater_name, creater_time, modify_name, modify_time, is_delete
+        from parameterization_data
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="pruductId != null and pruductId != ''">
+                and pruduct_id = #{pruductId}
+            </if>
+            <if test="parameterName != null and parameterName != ''">
+                and parameter_name = #{parameterName}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="parameterType != null">
+                and parameter_type = #{parameterType}
+            </if>
+            <if test="parameterContent != null and parameterContent != ''">
+                and parameter_content = #{parameterContent}
+            </if>
+            <if test="selectField != null and selectField != ''">
+                and select_field = #{selectField}
+            </if>
+            <if test="resultValue != null and resultValue != ''">
+                and result_value = #{resultValue}
+            </if>
+            <if test="createrName != null and createrName != ''">
+                and creater_name = #{createrName}
+            </if>
+            <if test="createrTime != null">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                and modify_name = #{modifyName}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="ParameterizationDataInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into parameterization_data(pruduct_id, parameter_name, remark, parameter_type,
+        parameter_content, select_field, result_value, creater_name, creater_time, modify_name, modify_time, is_delete)
+        values (#{pruductId}, #{parameterName}, #{remark}, #{parameterType}, #{parameterContent}, #{selectField},
+        #{resultValue}, #{createrName}, #{createrTime}, #{modifyName}, #{modifyTime}, #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="ParameterizationDataUpdate">
+        update parameterization_data
+        <set>
+            <if test="pruductId != null and pruductId != ''">
+                pruduct_id = #{pruductId},
+            </if>
+            <if test="parameterName != null and parameterName != ''">
+                parameter_name = #{parameterName},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="parameterType != null">
+                parameter_type = #{parameterType},
+            </if>
+            <if test="parameterContent != null and parameterContent != ''">
+                parameter_content = #{parameterContent},
+            </if>
+            <if test="selectField != null and selectField != ''">
+                select_field = #{selectField},
+            </if>
+            <if test="resultValue != null and resultValue != ''">
+                result_value = #{resultValue},
+            </if>
+            <if test="createrName != null and createrName != ''">
+                creater_name = #{createrName},
+            </if>
+            <if test="createrTime != null">
+                creater_time = #{createrTime},
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                modify_name = #{modifyName},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="ParameterizationDataDeleteById">
+        delete from parameterization_data where id = #{id}
+    </delete>
+
+</mapper>

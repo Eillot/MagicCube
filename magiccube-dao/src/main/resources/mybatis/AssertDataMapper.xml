@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.AssertDataMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.AssertData" id="AssertDataMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="testDataId" column="test_data_id" jdbcType="VARCHAR" />
+        <result property="assertDes" column="assert_des" jdbcType="VARCHAR" />
+        <result property="assertTarget" column="assert_target" jdbcType="VARCHAR" />
+        <result property="matchRules" column="match_rules" jdbcType="INTEGER" />
+        <result property="expectedValue" column="expected_value" jdbcType="VARCHAR" />
+        <result property="sceneId" column="scene_id" jdbcType="VARCHAR" />
+        <result property="remark" column="remark" jdbcType="VARCHAR" />
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR" />
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP" />
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR" />
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP" />
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER" />
+    </resultMap>
+
+    <!-- 通用查询结果集合-->
+    <sql id="Base_Column_List">
+		id,test_data_id,assert_des,assert_target,match_rules,expected_value,scene_id,remark,creater_name,creater_time,modify_name,modify_time,is_delete
+	</sql>
+
+    <sql id="conditions">
+        <if test="id != null"> and id =#{id,jdbcType=INTEGER}</if>
+        <if test="testDataId != null and testDataId != ''"> and test_data_id =#{testDataId,jdbcType=VARCHAR}</if>
+        <if test="assertDes != null and assertDes != ''"> and assert_des =#{assertDes,jdbcType=VARCHAR}</if>
+        <if test="assertTarget != null and assertTarget != ''"> and assert_target =#{assertTarget,jdbcType=VARCHAR}</if>
+        <if test="matchRules != null"> and match_rules =#{matchRules,jdbcType=INTEGER}</if>
+        <if test="expectedValue != null and expectedValue != ''"> and expected_value =#{expectedValue,jdbcType=VARCHAR}</if>
+        <if test="sceneId != null and sceneId != ''"> and scene_id =#{sceneId,jdbcType=VARCHAR}</if>
+        <if test="remark != null and remark != ''"> and remark =#{remark,jdbcType=VARCHAR}</if>
+        <if test="createrName != null and createrName != ''"> and creater_name =#{createrName,jdbcType=VARCHAR}</if>
+        <if test="createrTime != null and createrTime != ''"> and creater_time =#{createrTime,jdbcType=TIMESTAMP}</if>
+        <if test="modifyName != null and modifyName != ''"> and modify_name =#{modifyName,jdbcType=VARCHAR}</if>
+        <if test="modifyTime != null and modifyTime != ''"> and modify_time =#{modifyTime,jdbcType=TIMESTAMP}</if>
+        <if test="isDelete != null"> and is_delete =#{isDelete,jdbcType=INTEGER}</if>
+    </sql>
+
+    <!--查询单个-->
+    <select id="AssertDataQueryBytestDataId" resultMap="AssertDataMap">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        where test_data_id = #{testDataId} and is_delete = 1
+    </select>
+
+    <!--查询单个-->
+    <select id="AssertDataQueryById" resultMap="AssertDataMap">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        where id = #{id} and  scene_id = #{sceneId} and is_delete = 1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="AssertDataQueryAllByLimit" resultMap="AssertDataMap">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="AssertDataQueryAll" resultMap="AssertDataMap">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        <where>
+            <include refid="conditions" />
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="AssertDataQueryAllList" resultMap="AssertDataMap">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        <where>
+            <include refid="conditions" />
+        </where>
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="AssertDataListQueryByTestDataId" resultMap="AssertDataMap">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        where test_data_id = #{testDataId} and is_delete = 1
+    </select>
+
+    <select id="findById" resultType="com.simon.magiccube.dao.domain.AssertData">
+        select
+        <include refid="Base_Column_List" />
+        from assert_data
+        where id = #{id}
+    </select>
+
+    <!--新增所有列-->
+    <insert id="AssertDataInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into assert_data(test_data_id,assert_des,assert_target,match_rules,expected_value,scene_id,remark,creater_name,creater_time,modify_name,modify_time,is_delete)
+        values (#{testDataId}, #{assertDes},#{assertTarget},#{matchRules},#{expectedValue},  #{sceneId},#{remark}, #{createrName}, #{createrTime}, #{modifyName},
+        #{modifyTime}, #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="AssertDataUpdate">
+        update assert_data
+        <set>
+            <if test="testDataId != null and testDataId != ''">
+                test_data_id = #{testDataId},
+            </if>
+            <if test="assertDes != null and assertDes != ''">
+                assert_des = #{assertDes},
+            </if>
+            <if test="assertTarget != null and assertTarget != ''">
+             assert_target =#{assertTarget},
+            </if>
+            <if test="matchRules != null and matchRules != ''">
+                match_rules = #{matchRules},
+            </if>
+            <if test="expectedValue != null and expectedValue != ''">
+                expected_value = #{expectedValue},
+            </if>
+            <if test="sceneId != null and sceneId != ''">
+                scene_id = #{sceneId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createrName != null and createrName != ''">
+                creater_name = #{createrName},
+            </if>
+            <if test="createrTime != null">
+                creater_time = #{createrTime},
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                modify_name = #{modifyName},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过testDataId修改数据-->
+    <update id="AssertDataUpdateByTestDataId">
+        update assert_data
+        <set>
+            <if test="assertDes != null and assertDes != ''">
+                assert_des = #{assertDes},
+            </if>
+            <if test="assertTarget != null and assertTarget != ''">
+                assert_target =#{assertTarget}
+            </if>
+            <if test="matchRules != null and matchRules != ''">
+                match_rules = #{matchRules},
+            </if>
+            <if test="expectedValue != null and expectedValue != ''">
+                expected_value = #{expectedValue},
+            </if>
+            <if test="sceneId != null and sceneId != ''">
+                scene_id = #{sceneId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createrName != null and createrName != ''">
+                creater_name = #{createrName},
+            </if>
+            <if test="createrTime != null">
+                creater_time = #{createrTime},
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                modify_name = #{modifyName},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where test_data_id = #{testDataId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="AssertDataDeleteById">
+        delete from assert_data where id = #{id}
+    </delete>
+
+</mapper>

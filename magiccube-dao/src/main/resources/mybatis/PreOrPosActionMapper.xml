@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.PreOrPosActionMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.PreOrPosAction" id="PreOrPosActionMap">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="productId" column="product_id" jdbcType="VARCHAR"/>
+        <result property="appId" column="app_id" jdbcType="VARCHAR"/>
+        <result property="actionName" column="action_name" jdbcType="VARCHAR"/>
+        <result property="actionType" column="action_type" jdbcType="INTEGER"/>
+        <result property="databaseId" column="database_id" jdbcType="VARCHAR"/>
+        <result property="requestType" column="request_type" jdbcType="VARCHAR"/>
+        <result property="requestUrl" column="request_url" jdbcType="VARCHAR"/>
+        <result property="caseId" column="case_id" jdbcType="VARCHAR"/>
+        <result property="actionContent" column="action_content" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR"/>
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!-- 通用查询结果集合-->
+    <sql id="Base_Column_List">
+		id,product_id,app_id,action_name,action_type,database_id,request_type,request_url,case_id,action_content,remark,creater_name,creater_time,modify_name,modify_time,is_delete
+	</sql>
+
+    <!--查询单个-->
+    <select id="PreOrPosActionQueryById" resultMap="PreOrPosActionMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_or_pos_action
+        where id = #{id} and is_delete=1
+    </select>
+
+
+    <!--查询所有有效数据-->
+    <select id="PreOrPosActionListQueryAll" resultMap="PreOrPosActionMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_or_pos_action
+        where is_delete =1
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="PreOrPosActionQueryAllByLimit" resultMap="PreOrPosActionMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_or_pos_action
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="PreOrPosActionQueryAll" resultMap="PreOrPosActionMap">
+        select
+        <include refid="Base_Column_List"/>
+        from pre_or_pos_action
+        <where>
+            <if test="id != null and id !=''">
+                and id = #{id}
+            </if>
+            <if test="productId != null and productId != ''">
+                and product_id = #{productId}
+            </if>
+            <if test="appId != null and appId != ''">
+                and app_id =#{appId,jdbcType=VARCHAR}
+            </if>
+            <if test="actionName != null and actionName != ''">
+                and action_name = #{actionName}
+            </if>
+            <if test="actionType != null and actionType != ''">
+                and action_type = #{actionType}
+            </if>
+            <if test="databaseId != null and databaseId != ''">
+                and database_id = #{databaseId}
+            </if>
+            <if test="requestType != null and requestType != ''">
+                and request_type = #{requestType}
+            </if>
+            <if test="requestUrl != null and requestUrl != ''">
+                and request_url =#{requestUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and case_id =#{caseId,jdbcType=VARCHAR}
+            </if>
+            <if test="actionContent != null and actionContent != ''">
+                and action_content = #{actionContent}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="createrName != null and createrName != ''">
+                and creater_name = #{createrName}
+            </if>
+            <if test="createrTime != null ">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                and modify_name = #{modifyName}
+            </if>
+            <if test="modifyTime != null ">
+                and modify_time = #{modifyTime}
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--新增所有列-->
+    <insert id="PreOrPosActionInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into pre_or_pos_action(product_id,app_id,action_name,action_type,database_id,request_type,request_url,case_id,action_content,remark,creater_name,creater_time,modify_name,modify_time,is_delete)
+        values (#{productId},#{appId},#{actionName},#{actionType},#{databaseId}, #{requestType}, #{requestUrl}, #{caseId}, #{actionContent}, #{remark}, #{createrName}, #{createrTime},
+        #{modifyName}, #{modifyTime}, 1)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="PreOrPosActionUpdate">
+        update pre_or_pos_action
+        <set>
+            <if test="productId != null and productId != ''">
+                and product_id = #{productId}
+            </if>
+            <if test="appId != null and appId != ''">
+                and app_id =#{appId,jdbcType=VARCHAR}
+            </if>
+            <if test="actionName != null and actionName != ''">
+                and action_name = #{actionName}
+            </if>
+            <if test="actionType != null and actionType != ''">
+                and action_type = #{actionType}
+            </if>
+            <if test="databaseId != null and databaseId != ''">
+                and database_id = #{databaseId}
+            </if>
+            <if test="requestType != null and requestType != ''">
+                and request_type = #{requestType}
+            </if>
+            <if test="requestUrl != null and requestUrl != ''">
+                and request_url =#{requestUrl,jdbcType=VARCHAR}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and case_id =#{caseId,jdbcType=VARCHAR}
+            </if>
+            <if test="actionContent != null and actionContent != ''">
+                and action_content = #{actionContent}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="createrName != null and createrName != ''">
+                and creater_name = #{createrName}
+            </if>
+            <if test="createrTime != null ">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                and modify_name = #{modifyName}
+            </if>
+            <if test="modifyTime != null ">
+                and modify_time = #{modifyTime}
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                and is_delete = #{isDelete}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="PreOrPosActionDeleteById">
+        delete from pre_or_pos_action where id = #{id}
+    </delete>
+
+    <!--通过主键删除（将isDelete置为0）-->
+    <update id="PreOrPosActionDeleteToIsDeleteById">
+        update pre_or_pos_action
+        <set>
+                is_delete = 0
+        </set>
+        where id = #{id}
+    </update>
+
+</mapper>

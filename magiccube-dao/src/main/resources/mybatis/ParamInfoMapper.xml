@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.ParamInfoMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.ParamInfoEntity" id="BaseResultMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="paramName" column="param_name" jdbcType="VARCHAR"/>
+        <result property="paramValue" column="param_value" jdbcType="VARCHAR"/>
+        <result property="businessId" column="business_id" jdbcType="INTEGER"/>
+        <result property="businessName" column="business_name" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="addressId" column="address_id" jdbcType="INTEGER"/>
+        <result property="paramContent" column="param_content" jdbcType="VARCHAR"/>
+        <result property="access" column="access" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateUser" column="update_user" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="delFlag" column="del_flag" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--添加redis语句-->
+    <insert id="saveParamInfo">
+        INSERT INTO `param_info`
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="paramName != null and paramName!='' ">
+                param_name,
+            </if>
+            <if test="paramValue != null and paramValue!='' ">
+                param_value,
+            </if>
+            <if test="addressId != null ">
+                address_id,
+            </if>
+            <if test="businessId != null" >
+                business_id,
+            </if>
+            <if test="businessName != null and businessName!='' ">
+                business_name,
+            </if>
+            <if test="type != null ">
+                type,
+            </if>
+            <if test="paramContent != null and paramContent!='' ">
+                param_content,
+            </if>
+            <if test="access != null and access!='' ">
+                access,
+            </if>
+            <if test="remark != null and remark!='' ">
+                remark,
+            </if>
+            <if test="createUser != null and createUser !='' ">
+                create_user,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="updateUser != null and updateUser !='' ">
+                update_user,
+            </if>
+            <if test="updateTime != null">
+                update_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="paramName != null and paramName!='' ">
+                #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null and paramValue!='' ">
+                #{paramValue,jdbcType=VARCHAR},
+            </if>
+            <if test="addressId != null ">
+                #{addressId,jdbcType=INTEGER},
+            </if>
+            <if test="businessId != null" >
+                #{businessId,jdbcType=INTEGER},
+            </if>
+            <if test="businessName != null and businessName!='' ">
+                #{businessName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null ">
+                #{type,jdbcType=INTEGER},
+            </if>
+            <if test="paramContent != null and paramContent!='' ">
+                #{paramContent,jdbcType=VARCHAR},
+            </if>
+            <if test="access != null and access!='' ">
+                #{access,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark!='' ">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createUser != null and createUser !='' ">
+                #{createUser,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null and createTime !='' ">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="updateUser != null and updateUser !='' ">
+                #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null and updateTime !='' ">
+                #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+
+
+    <!--修改任务-->
+    <update id="updateParamInfo" parameterType="com.simon.magiccube.dao.domain.ParamInfoEntity">
+        update param_info
+        <set >
+            <if test="paramName != null and paramName !='' ">
+                param_name = #{paramName,jdbcType=VARCHAR},
+            </if>
+            <if test="paramValue != null and paramValue !='' ">
+                param_value = #{paramValue,jdbcType=VARCHAR},
+            </if>
+            <if test="addressId != null ">
+                address_id = #{addressId,jdbcType=INTEGER},
+            </if>
+            <if test="businessId != null ">
+                business_id = #{businessId,jdbcType=INTEGER},
+            </if>
+            <if test="businessName != null and businessName!='' ">
+                business_name = #{businessName,jdbcType=VARCHAR},
+            </if>
+            <if test="type != null ">
+                type = #{type,jdbcType=INTEGER},
+            </if>
+            <if test="paramContent != null and paramContent !='' ">
+                param_content = #{paramContent,jdbcType=VARCHAR},
+            </if>
+            <if test="access != null and access !='' ">
+                access = #{access,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null and remark !='' ">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="updateUser != null and updateUser !='' ">
+                update_user = #{updateUser,jdbcType=VARCHAR},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}      <!--根据id查询数据，更新字段 -->
+    </update>
+
+    <!--根据id查询参数化信息-->
+    <select id="searchById" resultMap="BaseResultMap">
+        select * from param_info WHERE id=#{id} AND del_flag=1;
+    </select>
+
+    <!-- 删除任务 -->
+    <update id="delParamInfo">
+        UPDATE param_info SET del_flag=0 WHERE id=#{id};
+    </update>
+
+
+    <!--查询数量-->
+    <select id="searchParamCount" parameterType="com.simon.magiccube.dao.domain.ParamInfoEntity" resultType="java.lang.Integer">
+        select COUNT(*) from param_info WHERE del_flag=1
+        <if test="paramName != null and paramName != '' ">
+            AND param_name LIKE CONCAT('%',#{paramName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            AND create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="businessId != null and businessId != '' ">
+            AND business_id LIKE CONCAT('%',#{businessId,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="type != null and type != '' ">
+            AND type = #{type,jdbcType=VARCHAR}
+        </if>
+    </select>
+
+    <!--列表查询-->
+    <select id="searchParamByList" resultMap="BaseResultMap">
+        select * from param_info WHERE del_flag=1
+        <if test="paramName != null and paramName != '' ">
+            AND param_name LIKE CONCAT('%',#{paramName,jdbcType=VARCHAR},'%')
+        </if>
+        <if test="createUser != null and createUser != '' ">
+            AND create_user = #{createUser,jdbcType=VARCHAR}
+        </if>
+        <if test="businessId != null and businessId != '' ">
+            AND business_id = #{businessId,jdbcType=VARCHAR}
+        </if>
+        <if test="type != null and type != '' ">
+            AND type = #{type,jdbcType=VARCHAR}
+        </if>
+        ORDER BY create_time DESC
+        <if test="null != pagination">
+            limit #{pagination.offSet}, #{pagination.pageSize}
+        </if>
+    </select>
+
+</mapper>

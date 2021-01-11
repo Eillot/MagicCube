@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.SceneCaseActionRelationMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.SceneCaseActionRelation" id="SceneCaseActionRelationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="actionObjectType" column="action_object_type" jdbcType="INTEGER"/>
+        <result property="actionObjectId" column="action_object_id" jdbcType="INTEGER"/>
+        <result property="preOrPosId" column="pre_or_pos_id" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="SceneCaseActionRelationQueryById" resultMap="SceneCaseActionRelationMap">
+        select
+        id, action_object_type, action_object_id, pre_or_pos_id, is_delete
+        from scene_case_action_relation
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="SceneCaseActionRelationQueryAllByLimit" resultMap="SceneCaseActionRelationMap">
+        select
+        id, action_object_type, action_object_id, pre_or_pos_id, is_delete
+        from scene_case_action_relation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="SceneCaseActionRelationQueryAll" resultMap="SceneCaseActionRelationMap">
+        select
+        id, action_object_type, action_object_id, pre_or_pos_id, is_delete
+        from scene_case_action_relation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="actionObjectType != null">
+                and action_object_type = #{actionObjectType}
+            </if>
+            <if test="actionObjectId != null">
+                and action_object_id = #{actionObjectId}
+            </if>
+            <if test="preOrPosId != null">
+                and pre_or_pos_id = #{preOrPosId}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="SceneCaseActionRelationQInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into scene_case_action_relation(action_object_type, action_object_id, pre_or_pos_id, is_delete)
+        values (#{actionObjectType}, #{actionObjectId}, #{preOrPosId}, #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="SceneCaseActionRelationUpdate">
+        update scene_case_action_relation
+        <set>
+            <if test="actionObjectType != null">
+                action_object_type = #{actionObjectType},
+            </if>
+            <if test="actionObjectId != null">
+                action_object_id = #{actionObjectId},
+            </if>
+            <if test="preOrPosId != null">
+                pre_or_pos_id = #{preOrPosId},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="SceneCaseActionRelationDeleteById">
+        delete from scene_case_action_relation where id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,61 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.simon.magiccube.dao.mapper.UserMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.User" id="UserMap">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_account" property="userLoginAccount" jdbcType="VARCHAR"/>
+        <result column="user_password" property="userLoginPassword" jdbcType="VARCHAR"/>
+        <result column="create_time" property="userCreateTime" jdbcType="TIMESTAMP"/>
+        <result column="user_emails" property="emails" jdbcType="VARCHAR"/>
+        <result column="user_roles" property="roles" jdbcType="VARCHAR"/>
+        <result column="user_token" property="userToken" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <!--通用查询数据项-->
+    <sql id="User_Columns">
+        id,user_account,user_password,create_time,user_emails,user_roles,user_token
+    </sql>
+    <!--根据用户登录账号查询信息-->
+    <select id="findUserByUserLoginAccount" resultMap="UserMap" parameterType="String">
+        select
+        <include refid="User_Columns"/>
+        from dt_user
+        <where>
+            user_account=#{userLoginAccount}
+        </where>
+    </select>
+
+    <!--用户信息保存-->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.simon.magiccube.dao.domain.User">
+        insert into dt_user (user_account,user_password,create_time,user_emails,user_roles,user_token)
+        values (#{userLoginAccount},#{userLoginPassword},#{userCreateTime},#{emails},#{roles},#{userToken})
+    </insert>
+
+    <!--更新本地暂存用户信息-->
+    <update id="update" parameterType="com.simon.magiccube.dao.domain.User">
+        update dt_user
+        <set>
+            <if test="userLoginPassword !=null">
+                user_password=#{userLoginPassword},
+            </if>
+            <if test="userCreateTime !=null">
+                create_time=#{userCreateTime},
+            </if>
+            <if test="emails !=null">
+                user_emails=#{emails},
+            </if>
+            <if test="roles !=null">
+                user_roles=#{roles},
+            </if>
+            <if test="userToken !=null">
+                user_token=#{userToken},
+            </if>
+        </set>
+        where user_account = #{userLoginAccount}
+    </update>
+</mapper>

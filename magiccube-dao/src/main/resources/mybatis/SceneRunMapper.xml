@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.SceneRunMapper">
+
+
+    <!--通用应用节运行时数据表映射-->
+    <resultMap type="com.simon.magiccube.dao.domain.SceneRun" id="SceneRunMap">
+        <id property="id" column="id" jdbcType="INTEGER" />
+        <result property="sceneRunResult" column="scene_run_result" jdbcType="INTEGER" />
+        <result property="sceneId" column="scene_id" jdbcType="VARCHAR" />
+        <result property="caseTotal" column="case_total" jdbcType="INTEGER" />
+        <result property="caseSuccessTotal" column="case_success_total" jdbcType="INTEGER" />
+        <result property="caseFailTotal" column="case_fail_total" jdbcType="INTEGER" />
+        <result property="environmentId" column="environment_id" jdbcType="VARCHAR" />
+        <result property="responseTime" column="response_time" jdbcType="INTEGER" />
+        <result property="responseResult" column="response_result" jdbcType="VARCHAR" />
+        <result property="remark" column="remark" jdbcType="VARCHAR" />
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR" />
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP" />
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR" />
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP" />
+        <result property="isDelete" column="is_delete" jdbcType="INTEGER" />
+    </resultMap>
+
+
+    <!-- 通用查询结果集合-->
+    <sql id="Base_Column_List">
+		id,scene_run_result,scene_id,case_total,case_success_total,case_fail_total,environment_id,response_time,response_result,remark,creater_name,creater_time,modify_name,modify_time,is_delete
+	</sql>
+
+
+    <sql id="conditions">
+        <if test="id != null"> and id =#{id,jdbcType=INTEGER}</if>
+        <if test="sceneRunResult != null"> and scene_run_result =#{sceneRunResult,jdbcType=INTEGER}</if>
+        <if test="sceneId != null and sceneId != ''"> and scene_id =#{sceneId,jdbcType=VARCHAR}</if>
+        <if test="caseTotal != null"> and case_total =#{caseTotal,jdbcType=INTEGER}</if>
+        <if test="caseSuccessTotal != null"> and case_success_total =#{caseSuccessTotal,jdbcType=INTEGER}</if>
+        <if test="caseFailTotal != null"> and case_fail_total =#{caseFailTotal,jdbcType=INTEGER}</if>
+        <if test="environmentId != null and environmentId != ''"> and environment_id =#{environmentId,jdbcType=VARCHAR}</if>
+        <if test="responseTime != null"> and response_time =#{responseTime,jdbcType=INTEGER}</if>
+        <if test="responseResult != null and responseResult != ''"> and response_result =#{responseResult,jdbcType=VARCHAR}</if>
+        <if test="remark != null and remark != ''"> and remark =#{remark,jdbcType=VARCHAR}</if>
+        <if test="createrName != null and createrName != ''"> and creater_name =#{createrName,jdbcType=VARCHAR}</if>
+        <if test="createrTime != null and createrTime != ''"> and creater_time =#{createrTime,jdbcType=TIMESTAMP}</if>
+        <if test="modifyName != null and modifyName != ''"> and modify_name =#{modifyName,jdbcType=VARCHAR}</if>
+        <if test="modifyTime != null and modifyTime != ''"> and modify_time =#{modifyTime,jdbcType=TIMESTAMP}</if>
+        <if test="isDelete != null"> and is_delete =#{isDelete,jdbcType=INTEGER}</if>
+    </sql>
+
+    <!-- 查询（根据主键ID查询） -->
+    <select id="selectSceneRunById" resultMap="SceneRunMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scene_run
+        WHERE id = #{id} and is_delete=1
+    </select>
+
+    <!-- 查询（查询最新的一条数据） -->
+    <select id="selectSceneRunByNew" resultMap="SceneRunMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scene_run
+        <where>
+            <include refid="conditions" />
+        </where>
+        ORDER BY creater_time DESC LIMIT 1
+    </select>
+
+    <!-- 查询（根据scene_id查询最新一条数据） -->
+    <select id="selectSceneRunBySceneIdNew" resultMap="SceneRunMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scene_run
+        WHERE scene_id = #{sceneId} and is_delete=1
+        ORDER BY modify_time DESC LIMIT 1
+    </select>
+
+
+    <!-- 添加 （匹配有值的字段,不建议使用）-->
+    <insert id="insertSceneRun"  keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO scene_run
+        <trim prefix="(" suffix=")" suffixOverrides="," >
+            <if test="id != null"> id,</if>
+            <if test="sceneRunResult != null"> scene_run_result,</if>
+            <if test="sceneId != null"> scene_id,</if>
+            <if test="caseTotal != null"> case_total,</if>
+            <if test="caseSuccessTotal != null"> case_success_total,</if>
+            <if test="caseFailTotal != null"> case_fail_total,</if>
+            <if test="environmentId != null"> environment_id,</if>
+            <if test="responseTime != null"> response_time,</if>
+            <if test="responseResult != null"> response_result,</if>
+            <if test="remark != null"> remark,</if>
+            <if test="createrName != null"> creater_name,</if>
+            <if test="createrTime != null"> creater_time,</if>
+            <if test="modifyName != null"> modify_name,</if>
+            <if test="modifyTime != null"> modify_time,</if>
+            <if test="isDelete != null"> is_delete,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+            <if test="id != null"> #{id,jdbcType=INTEGER},</if>
+            <if test="sceneRunResult != null"> #{sceneRunResult,jdbcType=INTEGER},</if>
+            <if test="sceneId != null"> #{sceneId,jdbcType=VARCHAR},</if>
+            <if test="caseTotal != null"> #{caseTotal,jdbcType=INTEGER},</if>
+            <if test="caseSuccessTotal != null"> #{caseSuccessTotal,jdbcType=INTEGER},</if>
+            <if test="caseFailTotal != null"> #{caseFailTotal,jdbcType=INTEGER},</if>
+            <if test="environmentId != null"> #{environmentId,jdbcType=VARCHAR},</if>
+            <if test="responseTime != null"> #{responseTime,jdbcType=INTEGER},</if>
+            <if test="responseResult != null"> #{responseResult,jdbcType=VARCHAR},</if>
+            <if test="remark != null"> #{remark,jdbcType=VARCHAR},</if>
+            <if test="createrName != null"> #{createrName,jdbcType=VARCHAR},</if>
+            <if test="createrTime != null"> #{createrTime,jdbcType=TIMESTAMP},</if>
+            <if test="modifyName != null"> #{modifyName,jdbcType=VARCHAR},</if>
+            <if test="modifyTime != null"> #{modifyTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null"> #{isDelete,jdbcType=INTEGER},</if>
+        </trim>
+    </insert>
+
+    <!-- 根据主键修改输入的值-->
+    <update id="updateSceneRunByIdSelective" >
+        UPDATE scene_run
+        <set>
+            <if test="id != null"> id=#{id,jdbcType=INTEGER},</if>
+            <if test="sceneRunResult != null"> scene_run_result=#{sceneRunResult,jdbcType=INTEGER},</if>
+            <if test="sceneId != null"> scene_id=#{sceneId,jdbcType=VARCHAR},</if>
+            <if test="caseTotal != null"> case_total=#{caseTotal,jdbcType=INTEGER},</if>
+            <if test="caseSuccessTotal != null"> case_success_total=#{caseSuccessTotal,jdbcType=INTEGER},</if>
+            <if test="caseFailTotal != null"> case_fail_total=#{caseFailTotal,jdbcType=INTEGER},</if>
+            <if test="environmentId != null"> environment_id=#{environmentId,jdbcType=VARCHAR},</if>
+            <if test="responseTime != null"> response_time=#{responseTime,jdbcType=INTEGER},</if>
+            <if test="responseResult != null"> response_result=#{responseResult,jdbcType=VARCHAR},</if>
+            <if test="remark != null"> remark=#{remark,jdbcType=VARCHAR},</if>
+            <if test="createrName != null"> creater_name=#{createrName,jdbcType=VARCHAR},</if>
+            <if test="createrTime != null"> creater_time=#{createrTime,jdbcType=TIMESTAMP},</if>
+            <if test="modifyName != null"> modify_name=#{modifyName,jdbcType=VARCHAR},</if>
+            <if test="modifyTime != null"> modify_time=#{modifyTime,jdbcType=TIMESTAMP},</if>
+            <if test="isDelete != null"> is_delete=#{isDelete,jdbcType=INTEGER},</if>
+        </set>
+        WHERE id=#{id,jdbcType=INTEGER}
+    </update>
+
+    <!-- 分页查询 -->
+    <select id="selectSceneRunListPage" resultMap="SceneRunMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scene_run
+        <where>
+            <include refid="conditions" />
+        </where>
+        ORDER BY id DESC
+
+        limit #{startOfPage},#{pageSize}
+    </select>
+
+    <!-- 分页查询总数 -->
+    <select id="selectSceneRunListPageTotal" resultType="java.lang.Long" parameterType="java.util.HashMap" useCache="false">
+        SELECT
+        count(*)
+        FROM scene_run
+        <where>
+            <include refid="conditions" />
+        </where>
+    </select>
+
+    <!-- 按条件查询列表 -->
+    <select id="selectSceneRunList" resultMap="SceneRunMap" >
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM scene_run
+        <where>
+            <include refid="conditions" />
+        </where>
+    </select>
+
+</mapper>

@@ -1,0 +1,51 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.simon.magiccube.dao.mapper.ImageMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.Image" id="ImageMap">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="image_name" property="imageName" jdbcType="VARCHAR"/>
+        <result column="image_path" property="imagePath" jdbcType="VARCHAR"/>
+        <result column="create_time" property="imageCreateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--通用查询数据项-->
+    <sql id="Image_Columns">
+        id,image_name,image_path,create_time
+    </sql>
+    <!--根据用户登录账号查询信息-->
+    <select id="findImageByImageName" resultMap="ImageMap" parameterType="String">
+        select
+        <include refid="Image_Columns"/>
+        from dt_image
+        <where>
+            image_name=#{imageName}
+        </where>
+    </select>
+
+    <!--用户信息保存-->
+    <insert id="insertImage" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.simon.magiccube.dao.domain.Image">
+        insert into dt_image (image_name,image_path,create_time)
+        values (#{imageName},#{imagePath},#{imageCreateTime})
+    </insert>
+
+    <!--更新本地暂存用户信息-->
+    <update id="updateImage" parameterType="com.simon.magiccube.dao.domain.Image">
+        update dt_image
+        <set>
+            <if test="imageName !=null">
+                image_name=#{imageName},
+            </if>
+            <if test="image_path !=null">
+                image_path=#{imagePath},
+            </if>
+            <if test="imageCreateTime !=null">
+                create_time=#{imageCreateTime},
+            </if>
+        </set>
+        where image_name = #{imageName}
+    </update>
+</mapper>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.SceneCaseRelationMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.SceneCaseRelation" id="SceneCaseRelationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="caseId" column="case_id" jdbcType="VARCHAR"/>
+        <result property="sceneId" column="scene_id" jdbcType="VARCHAR"/>
+        <result property="caseOrder" column="case_order" jdbcType="INTEGER"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="SceneCaseRelationQueryById" resultMap="SceneCaseRelationMap">
+        select
+        id, case_id, scene_id, case_order, is_delete
+        from scene_case_relation
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="SceneCaseRelationQueryAllByLimit" resultMap="SceneCaseRelationMap">
+        select
+        id, case_id, scene_id, case_order, is_delete
+        from scene_case_relation
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="SceneCaseRelationQueryAll" resultMap="SceneCaseRelationMap">
+        select
+        id, case_id, scene_id, case_order, is_delete
+        from scene_case_relation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and case_id = #{caseId}
+            </if>
+            <if test="sceneId != null and sceneId != ''">
+                and scene_id = #{sceneId}
+            </if>
+            <if test="caseOrder != null">
+                and case_order = #{caseOrder}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="SceneCaseRelationInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into scene_case_relation(case_id, scene_id, case_order, is_delete)
+        values (#{caseId}, #{sceneId}, #{caseOrder}, #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="SceneCaseRelationUpdate">
+        update scene_case_relation
+        <set>
+            <if test="caseId != null and caseId != ''">
+                case_id = #{caseId},
+            </if>
+            <if test="sceneId != null and sceneId != ''">
+                scene_id = #{sceneId},
+            </if>
+            <if test="caseOrder != null">
+                case_order = #{caseOrder},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="SceneCaseRelationDeleteById">
+        delete from scene_case_relation where id = #{id}
+    </delete>
+
+</mapper>

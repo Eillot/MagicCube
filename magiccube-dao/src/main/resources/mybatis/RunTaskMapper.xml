@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.RunTaskMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.RunTask" id="RunTaskMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="taskName" column="task_name" jdbcType="VARCHAR"/>
+        <result property="runState" column="run_state" jdbcType="INTEGER"/>
+        <result property="runResult" column="run_result" jdbcType="INTEGER"/>
+        <result property="runType" column="run_type" jdbcType="INTEGER"/>
+        <result property="reportUrl" column="report_url" jdbcType="VARCHAR"/>
+        <result property="runPeople" column="run_people" jdbcType="VARCHAR"/>
+        <result property="runTime" column="run_time" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="RunTaskQueryById" resultMap="RunTaskMap">
+        select
+        id, task_name, run_state, run_result, run_type, report_url, run_people, run_time, remark, is_delete
+        from run_task
+        where id = #{id}
+    </select>
+
+    <!--根据ID查询所有数据-->
+    <select id="RunTaskQueryAllByID" resultMap="RunTaskMap">
+        select
+        id, task_name, run_state, run_result, run_type, report_url, run_people, run_time, remark, is_delete
+        from run_task
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="RunTaskQueryAllByLimit" resultMap="RunTaskMap">
+        select
+        id, task_name, run_state, run_result, run_type, report_url, run_people, run_time, remark, is_delete
+        from run_task
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="RunTaskQueryAll" resultMap="RunTaskMap">
+        select
+        id, task_name, run_state, run_result, run_type, report_url, run_people, run_time, remark, is_delete
+        from run_task
+        <where>
+            <if test="id != null and id != ''">
+                and id = #{id}
+            </if>
+            <if test="taskName != null and taskName != ''">
+                and task_name = #{taskName}
+            </if>
+            <if test="runState != null and runState != ''">
+                and run_state = #{runState}
+            </if>
+            <if test="runResult != null and runResult != ''">
+                and run_result = #{runResult}
+            </if>
+            <if test="runType != null and runType != ''">
+                and run_type = #{runType}
+            </if>
+            <if test="reportUrl != null and reportUrl != ''">
+                and report_url = #{reportUrl}
+            </if>
+            <if test="runPeople != null and runPeople != ''">
+                and run_people = #{runPeople}
+            </if>
+            <if test="runTime != null">
+                and run_time = #{runTime}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="isDelete != null and isDelete != ''">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="RunTaskInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into run_task(task_name, run_state, run_result, run_type, report_url, run_people, run_time,
+        remark, is_delete)
+        values (#{taskName}, #{runState}, #{runResult}, #{runType}, #{reportUrl}, #{runPeople}, #{runTime}, #{remark},
+        #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="RunTaskUpdate">
+        update run_task
+        <set>
+            <if test="taskName != null and taskName != ''">
+                task_name = #{taskName},
+            </if>
+            <if test="runState != null">
+                run_state = #{runState},
+            </if>
+            <if test="runResult != null">
+                run_result = #{runResult},
+            </if>
+            <if test="runType != null">
+                run_type = #{runType},
+            </if>
+            <if test="reportUrl != null and reportUrl != ''">
+                report_url = #{reportUrl},
+            </if>
+            <if test="runPeople != null and runPeople != ''">
+                run_people = #{runPeople},
+            </if>
+            <if test="runTime != null">
+                run_time = #{runTime},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="RunTaskDeleteById">
+        delete from run_task where id = #{id}
+    </delete>
+
+</mapper>

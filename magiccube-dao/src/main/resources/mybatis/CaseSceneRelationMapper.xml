@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.simon.magiccube.dao.mapper.CaseSceneRelationMapper" >
+
+  <resultMap id="BaseResultMap" type="com.simon.magiccube.dao.domain.CaseSceneRelation" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="run_object_type" property="runObjectType" jdbcType="INTEGER" />
+    <result column="scene_id" property="sceneId" jdbcType="VARCHAR" />
+    <result column="case_id" property="caseId" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="case_order" property="caseOrder" jdbcType="INTEGER" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, run_object_type, scene_id, case_id, is_delete, case_order
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap"  >
+    select
+    <include refid="Base_Column_List" />
+    from case_scene_relation
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" >
+    delete from case_scene_relation
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteBySceneIdAndCaseId">
+    delete from case_scene_relation
+    where scene_id = #{sceneId} and case_id = #{caseId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyProperty="id" useGeneratedKeys="true" >
+    insert into case_scene_relation (id, run_object_type, scene_id,
+      case_id, is_delete, case_order
+      )
+    values (#{id,jdbcType=INTEGER}, #{runObjectType,jdbcType=INTEGER}, #{sceneId,jdbcType=VARCHAR},
+      #{caseId,jdbcType=VARCHAR}, #{isDelete,jdbcType=TINYINT}, #{caseOrder,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" keyProperty="id" useGeneratedKeys="true" >
+    insert into case_scene_relation
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="runObjectType != null" >
+        run_object_type,
+      </if>
+      <if test="sceneId != null" >
+        scene_id,
+      </if>
+      <if test="caseId != null" >
+        case_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="caseOrder != null" >
+        case_order,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="runObjectType != null" >
+        #{runObjectType,jdbcType=INTEGER},
+      </if>
+      <if test="sceneId != null" >
+        #{sceneId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="caseOrder != null" >
+        #{caseOrder,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" >
+    update case_scene_relation
+    <set >
+      <if test="runObjectType != null" >
+        run_object_type = #{runObjectType,jdbcType=INTEGER},
+      </if>
+      <if test="sceneId != null" >
+        scene_id = #{sceneId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        case_id = #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="caseOrder != null" >
+        case_order = #{caseOrder,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey"  >
+    update case_scene_relation
+    set run_object_type = #{runObjectType,jdbcType=INTEGER},
+      scene_id = #{sceneId,jdbcType=VARCHAR},
+      case_id = #{caseId,jdbcType=VARCHAR},
+      is_delete = #{isDelete,jdbcType=TINYINT},
+      case_order = #{caseOrder,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="listCaseIdBySceneId" resultType="string">
+    select case_id
+    FROM case_scene_relation
+    where scend_id = #{scendId} order by case_order;
+  </select>
+  <select id="findAllBySceneId"
+          resultType="com.simon.magiccube.dao.domain.CaseSceneRelation">
+    select
+    <include refid="Base_Column_List" />
+    FROM case_scene_relation
+    where scend_id = #{scendId} order by case_order;
+  </select>
+</mapper>

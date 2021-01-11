@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.HttpInterfaceManageMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.HttpInterfaceManage" id="HttpInterfaceManageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="httpInterfaceName" column="http_interface_name" jdbcType="VARCHAR"/>
+        <result property="httpInterfaceContent" column="http_interface_content" jdbcType="VARCHAR"/>
+        <result property="httpInterfaceRequestType" column="http_interface_request_type" jdbcType="VARCHAR"/>
+        <result property="productId" column="product_id" jdbcType="VARCHAR"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+        <result property="createrName" column="creater_name" jdbcType="VARCHAR"/>
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP"/>
+        <result property="modifyName" column="modify_name" jdbcType="VARCHAR"/>
+        <result property="modifyTime" column="modify_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="HttpInterfaceManageQueryById" resultMap="HttpInterfaceManageMap">
+        select
+        id, http_interface_name, http_interface_content, http_interface_request_type, product_id, remark, creater_name,
+        creater_time, modify_name, modify_time, is_delete
+        from http_interface_manage
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="HttpInterfaceManageQueryAllByLimit" resultMap="HttpInterfaceManageMap">
+        select
+        id, http_interface_name, http_interface_content, http_interface_request_type, product_id, remark, creater_name,
+        creater_time, modify_name, modify_time, is_delete
+        from http_interface_manage
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="HttpInterfaceManageQueryAll" resultMap="HttpInterfaceManageMap">
+        select
+        id, http_interface_name, http_interface_content, http_interface_request_type, product_id, remark, creater_name,
+        creater_time, modify_name, modify_time, is_delete
+        from http_interface_manage
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="httpInterfaceName != null and httpInterfaceName != ''">
+                and http_interface_name = #{httpInterfaceName}
+            </if>
+            <if test="httpInterfaceContent != null and httpInterfaceContent != ''">
+                and http_interface_content = #{httpInterfaceContent}
+            </if>
+            <if test="httpInterfaceRequestType != null and httpInterfaceRequestType != ''">
+                and http_interface_request_type = #{httpInterfaceRequestType}
+            </if>
+            <if test="productId != null and productId != ''">
+                and product_id = #{productId}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+            <if test="createrName != null and createrName != ''">
+                and creater_name = #{createrName}
+            </if>
+            <if test="createrTime != null">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                and modify_name = #{modifyName}
+            </if>
+            <if test="modifyTime != null">
+                and modify_time = #{modifyTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="HttpInterfaceManageInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into http_interface_manage(http_interface_name, http_interface_content,
+        http_interface_request_type, product_id, remark, creater_name, creater_time, modify_name, modify_time,
+        is_delete)
+        values (#{httpInterfaceName}, #{httpInterfaceContent}, #{httpInterfaceRequestType}, #{productId}, #{remark},
+        #{createrName}, #{createrTime}, #{modifyName}, #{modifyTime}, #{isDelete})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="HttpInterfaceManageUpdate">
+        update http_interface_manage
+        <set>
+            <if test="httpInterfaceName != null and httpInterfaceName != ''">
+                http_interface_name = #{httpInterfaceName},
+            </if>
+            <if test="httpInterfaceContent != null and httpInterfaceContent != ''">
+                http_interface_content = #{httpInterfaceContent},
+            </if>
+            <if test="httpInterfaceRequestType != null and httpInterfaceRequestType != ''">
+                http_interface_request_type = #{httpInterfaceRequestType},
+            </if>
+            <if test="productId != null and productId != ''">
+                product_id = #{productId},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+            <if test="createrName != null and createrName != ''">
+                creater_name = #{createrName},
+            </if>
+            <if test="createrTime != null">
+                creater_time = #{createrTime},
+            </if>
+            <if test="modifyName != null and modifyName != ''">
+                modify_name = #{modifyName},
+            </if>
+            <if test="modifyTime != null">
+                modify_time = #{modifyTime},
+            </if>
+            <if test="isDelete != null">
+                is_delete = #{isDelete},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="HttpInterfaceManageDeleteById">
+        delete from http_interface_manage where id = #{id}
+    </delete>
+
+</mapper>

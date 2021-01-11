@@ -1,0 +1,29 @@
+<included>
+    <!--
+        关于misslog的接入文档，请参考
+            1.http://wiki.simon.net/pages/viewpage.action?pageId=51323932
+            2.http://wiki.simon.net/pages/viewpage.action?pageId=37343589
+     -->
+    <appender name="customLogFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logBasePath}/customLog.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>
+                ${logBasePath}/customlog.log.info.%d{yyyy-MM-dd}.log
+            </fileNamePattern>
+            <MaxHistory>${max.history}</MaxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>utf-8</charset>
+            <Pattern>
+                %prefix %X{traceid} %X{traceUrl} %X{rpcid} pRpcid[%X{pRpcid}] %X{url} %.-1048000m \n
+            </Pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.mryx.magiccube" additivity="false" level="INFO">
+        <appender-ref ref="customLogFile"/>
+    </logger>
+
+    <!-- 自定义某个logger的日志级别 -->
+    <logger name="com.simon.conf" level="error"/>
+</included>

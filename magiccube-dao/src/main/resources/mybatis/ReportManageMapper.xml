@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.simon.magiccube.dao.mapper.ReportManageMapper">
+
+    <resultMap type="com.simon.magiccube.dao.domain.ReportManage" id="ReportManageMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="caseId" column="case_id" jdbcType="VARCHAR"/>
+        <result property="caseName" column="case_name" jdbcType="VARCHAR"/>
+        <result property="interfaceUrl" column="interface_url" jdbcType="VARCHAR"/>
+        <result property="environment" column="environment" jdbcType="VARCHAR"/>
+        <result property="runResult" column="run_result" jdbcType="INTEGER"/>
+        <result property="responseTime" column="response_time" jdbcType="INTEGER"/>
+        <result property="statusCode" column="status_code" jdbcType="INTEGER"/>
+        <result property="assertResultAndDes" column="assert_result_and_des" jdbcType="VARCHAR"/>
+        <result property="assertId" column="assert_id" jdbcType="VARCHAR"/>
+        <result property="caseResponseResult" column="case_response_result" jdbcType="VARCHAR"/>
+        <result property="testDataId" column="test_data_id" jdbcType="VARCHAR"/>
+        <result property="caseDataContent" column="case_data_content" jdbcType="VARCHAR"/>
+        <result property="createrTime" column="creater_time" jdbcType="TIMESTAMP"/>
+        <result property="isDelete" column="is_delete" jdbcType="OTHER"/>
+    </resultMap>
+
+    <!--查询单个，根据caseid-->
+    <select id="ReportManageQueryByCaseId" resultMap="ReportManageMap">
+        select
+        id, case_id, case_name,interface_url,environment,run_result,response_time,status_code,assert_result_and_des,assert_id,case_response_result,test_data_id,case_data_content,creater_time
+        from report_manage
+        where case_id = #{caseId}
+    </select>
+
+    <!-- 查询（查询最新的一条数据） -->
+    <select id="ReportManageQueryByCaseIdNew" resultMap="ReportManageMap" >
+        SELECT
+        id, case_id, case_name,interface_url,environment,run_result,response_time,status_code,assert_result_and_des,assert_id,case_response_result,test_data_id,case_data_content,creater_time
+        FROM report_manage
+        where case_id = #{caseId}
+        ORDER BY creater_time DESC LIMIT 1
+    </select>
+
+    <!--查询单个-->
+    <select id="ReportManageQueryById" resultMap="ReportManageMap">
+        select
+        id, case_id, case_name,interface_url,environment,run_result,response_time,status_code,assert_result_and_des,assert_id,case_response_result,test_data_id,case_data_content,creater_time
+        from report_manage
+        where id = #{id}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="ReportManageQueryAll" resultMap="ReportManageMap">
+        select
+        id, case_id, case_name,interface_url,environment,run_result,response_time,status_code,assert_result_and_des,assert_id,case_response_result,test_data_id,case_data_content,creater_time
+        from report_manage
+        <where>
+            <if test="id != null and id !=''">
+                and id = #{id}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and case_id = #{caseId}
+            </if>
+            <if test="caseName != null and caseName != ''">
+                and case_name = #{caseName}
+            </if>
+            <if test="interfaceUrl != null and interfaceUrl != ''">
+                and interface_url = #{interfaceUrl}
+            </if>
+            <if test="environment != null and environment != ''">
+                and environment = #{environment}
+            </if>
+            <if test="runResult != null and runResult != ''">
+                and run_result = #{runResult}
+            </if>
+            <if test="responseTime != null and responseTime != ''">
+                and response_time = #{responseTime}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode}
+            </if>
+            <if test="assertResultAndDes != null and assertResultAndDes != ''">
+                and assert_result_and_des = #{assertResultAndDes}
+            </if>
+            <if test="assertId != null and assertId != ''">
+                and assert_id = #{assertId}
+            </if>
+            <if test="caseResponseResult != null and caseResponseResult != ''">
+                and case_response_result = #{caseResponseResult}
+            </if>
+            <if test="testDataId != null and testDataId != ''">
+                and test_data_id = #{testDataId}
+            </if>
+            <if test="caseDataContent != null and caseDataContent != ''">
+                and case_data_content = #{caseDataContent}
+            </if>
+            <if test="createrTime != null">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--通过实体作为筛选条件查询最新的一条数据-->
+    <select id="ReportManageQueryAllNew" resultMap="ReportManageMap">
+        select
+        id, case_id, case_name,interface_url,environment,run_result,response_time,status_code,assert_result_and_des,assert_id,case_response_result,test_data_id,case_data_content,creater_time
+        from report_manage
+        <where>
+            <if test="id != null and id !=''">
+                and id = #{id}
+            </if>
+            <if test="caseId != null and caseId != ''">
+                and case_id = #{caseId}
+            </if>
+            <if test="caseName != null and caseName != ''">
+                and case_name = #{caseName}
+            </if>
+            <if test="interfaceUrl != null and interfaceUrl != ''">
+                and interface_url = #{interfaceUrl}
+            </if>
+            <if test="environment != null and environment != ''">
+                and environment = #{environment}
+            </if>
+            <if test="runResult != null and runResult != ''">
+                and run_result = #{runResult}
+            </if>
+            <if test="responseTime != null and responseTime != ''">
+                and response_time = #{responseTime}
+            </if>
+            <if test="statusCode != null and statusCode != ''">
+                and status_code = #{statusCode}
+            </if>
+            <if test="assertResultAndDes != null and assertResultAndDes != ''">
+                and assert_result_and_des = #{assertResultAndDes}
+            </if>
+            <if test="assertId != null and assertId != ''">
+                and assert_id = #{assertId}
+            </if>
+            <if test="caseResponseResult != null and caseResponseResult != ''">
+                and case_response_result = #{caseResponseResult}
+            </if>
+            <if test="testDataId != null and testDataId != ''">
+                and test_data_id = #{testDataId}
+            </if>
+            <if test="caseDataContent != null and caseDataContent != ''">
+                and case_data_content = #{caseDataContent}
+            </if>
+            <if test="createrTime != null">
+                and creater_time = #{createrTime}
+            </if>
+            <if test="isDelete != null">
+                and is_delete = #{isDelete}
+            </if>
+        </where>
+        ORDER BY creater_time DESC LIMIT 1
+    </select>
+
+    <!--新增所有列-->
+    <insert id="ReportManageInsert" keyProperty="id" useGeneratedKeys="true">
+        insert into report_manage(case_id, case_name,interface_url,environment,run_result,response_time,status_code,assert_result_and_des,assert_id,case_response_result,test_data_id,case_data_content,creater_time,is_delete)
+        values (#{caseId}, #{caseName},#{interfaceUrl}, #{environment}, #{runResult}, #{responseTime}, #{statusCode},#{assertResultAndDes}, #{assertId},
+        #{caseResponseResult}, #{testDataId}, #{caseDataContent}, #{createrTime}, 1)
+    </insert>
+
+    <!--通过caseId修改数据-->
+    <!--<update id="ReportManageUpdateAssertByCaseId">-->
+        <!--update magiccube.report_manage-->
+        <!--<set>-->
+            <!--<if test="id != null and id !=''">-->
+                <!--and id = #{id}-->
+            <!--</if>-->
+            <!--<if test="caseId != null and caseId != ''">-->
+                <!--and case_id = #{caseId}-->
+            <!--</if>-->
+            <!--<if test="caseName != null and caseName != ''">-->
+                <!--and case_name = #{caseName}-->
+            <!--</if>-->
+            <!--<if test="interfaceUrl != null and interfaceUrl != ''">-->
+                <!--and interface_url = #{interfaceUrl}-->
+            <!--</if>-->
+            <!--<if test="environment != null and environment != ''">-->
+                <!--and environment = #{environment}-->
+            <!--</if>-->
+            <!--<if test="runResult != null and runResult != ''">-->
+                <!--and run_result = #{runResult}-->
+            <!--</if>-->
+            <!--<if test="responseTime != null and responseTime != ''">-->
+                <!--and response_time = #{responseTime}-->
+            <!--</if>-->
+            <!--<if test="statusCode != null and statusCode != ''">-->
+                <!--and status_code = #{statusCode}-->
+            <!--</if>-->
+            <!--<if test="assertCon != null and assertCon != ''">-->
+                <!--and assert = #{assertCon}-->
+            <!--</if>-->
+            <!--<if test="assertId != null and assertId != ''">-->
+                <!--and assert_id = #{assertId}-->
+            <!--</if>-->
+            <!--<if test="assertResult != null and assertResult != ''">-->
+                <!--and assert_result = #{assertResult}-->
+            <!--</if>-->
+            <!--<if test="testDataId != null and testDataId != ''">-->
+                <!--and test_data_id = #{testDataId}-->
+            <!--</if>-->
+            <!--<if test="caseDataContent != null and caseDataContent != ''">-->
+                <!--and case_data_content = #{caseDataContent}-->
+            <!--</if>-->
+            <!--<if test="createrTime != null and createrTime !=''">-->
+                <!--and creater_time = #{createrTime}-->
+            <!--</if>-->
+            <!--<if test="isDelete != null and isDelete !=''">-->
+                <!--and is_delete = #{isDelete}-->
+            <!--</if>-->
+        <!--</set>-->
+        <!--where case_id = #{caseId}-->
+    <!--</update>-->
+
+    <!--通过caseId修改数据-->
+    <update id="ReportManageUpdateAssertByCaseId">
+        update report_manage set assert_result_and_des = #{assertResultAndDes} where case_id = #{caseId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="ReportManageDeleteById">
+        delete from report_manage where id = #{id}
+    </delete>
+
+</mapper>
