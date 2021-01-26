@@ -42,7 +42,8 @@ Spring Boot（即Spring + SpringMVC + MyBatis + Vue）
 二.工具平台效果图如下:
    
    ![工具平台效果图](https://github.com/Eillot/MagicCube/blob/main/image/interface_test_tools.png)
-
+    
+    创建新工具效果图如下:
    ![新增工具效果图](https://github.com/Eillot/MagicCube/blob/main/image/create_interface_test_01.png)
    ![新增工具效果图](https://github.com/Eillot/MagicCube/blob/main/image/create_interface_test_02.png)
    ![新增工具效果图](https://github.com/Eillot/MagicCube/blob/main/image/create_interface_test_03.png)
